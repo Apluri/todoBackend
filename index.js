@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-app.use(cors);
+app.use(cors());
 const db = [{ name: "duumi" }, { name: "pappa" }];
 app.get("/names", (req, res) => {
   res.send(db);
