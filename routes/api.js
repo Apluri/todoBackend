@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 // const validate = require("jsonschema").validate;
-// const sqlConnection = require("../database/crudrepository.js");
+// const sqlConnection = require("../database/crud.js");
 
 // automatically convert to json each fetch?
 router.use(express.json());
