@@ -1,0 +1,12 @@
+POST http://localhost:8080/api/
+Content-type :application/json
+
+{"id": 6, "task": "homo", "deadline": "2020-18-10"}
+
+###
+### ?sorted=DESC&by=lon  
+GET http://localhost:8080/api/tasks/
+
+### 
+
+DELETE http://localhost:8080/api/1

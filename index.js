@@ -1,11 +1,11 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const api = require("./routes/api.js");
+
 app.use(cors());
-const db = [{ name: "duumi" }, { name: "pappa" }];
-app.get("/names", (req, res) => {
-  res.send(db);
-});
+app.use("/api", api);
+
 function main() {
   const port = process.env.PORT || 8080;
   const server = app.listen(port, async () => {
