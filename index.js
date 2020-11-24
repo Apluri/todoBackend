@@ -11,7 +11,7 @@ function main() {
   const port = process.env.PORT || 8080;
   const server = app.listen(port, async () => {
     try {
-      //await database.connect();
+      await database.connect();
       console.log("Database connection successful");
       console.log(`Listening on port ${server.address().port}`);
     } catch (err) {
