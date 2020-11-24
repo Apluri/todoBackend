@@ -5,7 +5,12 @@ let connection = null;
 
 const connectionFunctions = {
   connect: () => {
-    return new Promise((resolve, reject) => {});
+    return new Promise((resolve, reject) => {
+      connection = mysql.createPool(config);
+      connection
+        ? resolve("Connection established")
+        : reject(new Error("Connection failed"));
+    });
   },
 
   close: () => {
