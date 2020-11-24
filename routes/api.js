@@ -12,7 +12,7 @@ let db = [
 ];
 
 // get all tasks
-router.get("/tasks", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     res.statusCode = 200;
     res.send(await sqlConnection.findAll());
@@ -23,8 +23,10 @@ router.get("/tasks", async (req, res) => {
   //res.send(db);
 });
 
+// get task by id
+
 // add new task
-router.post("/tasks", async (req, res) => {
+router.post("/", async (req, res) => {
   // let temp = new task(req.body.?, req.body.?, req.body.?);
   let validationResult = validator.taskValidation(temp);
   try {
@@ -48,7 +50,7 @@ router.post("/tasks", async (req, res) => {
 });
 
 // delete by id
-router.delete("/tasks/:taskid([0-9]+)", async (req, res) => {
+router.delete("/:taskid([0-9]+)", async (req, res) => {
   if (validator.idValidation(Number(req.params.taskid))) {
     try {
       await sqlConnection.deleteById(Number(req.params.taskid));
@@ -64,4 +66,7 @@ router.delete("/tasks/:taskid([0-9]+)", async (req, res) => {
   }
   //db = db.filter((todoTask) => todoTask.id !== Number(req.params.taskid));
 });
+
+// delete all
+
 module.exports = router;
