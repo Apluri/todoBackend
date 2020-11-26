@@ -60,8 +60,19 @@ const connectionFunctions = {
     });
   },
 
+  // TODO add sql injection protection for id
   deleteById: (id) => {
-    return new Promise((resolve, reject) => {});
+    return new Promise((resolve, reject) => {
+      const deleteAll = `DELETE FROM ${mysql.escapeId("tasks")} WHERE id=${id}`;
+      console.log(deleteAll);
+      connection.query(deleteAll, (err, tasks) => {
+        err
+          ? reject(err)
+          : tasks.affectedRows > 0
+          ? resolve(`${tasks.affectedRows} row(s) affected`)
+          : resolve("nothing to delete");
+      });
+    });
   },
 };
 
