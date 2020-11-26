@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 router.use(express.json());
 // router.use(express.static("../../todoFrontend/?"));
-const validator = require("..model/validator.js");
+const validator = require("../model/validator.js");
 const sqlConnection = require("../database/crud.js");
-const task = require("..model/todoTask.js");
+const task = require("../model/todoTask.js");
 
 let db = [
   { id: 1, task: "Mee toihi", deadline: null },
@@ -12,8 +12,9 @@ let db = [
 ];
 
 // get all tasks
-router.get("/", async (req, res) => {
+router.get("/tasks/", async (req, res) => {
   try {
+    console.log("Trying to fetch");
     res.statusCode = 200;
     res.send(await sqlConnection.findAll());
   } catch (err) {
@@ -27,13 +28,12 @@ router.get("/", async (req, res) => {
 
 // add new task
 router.post("/", async (req, res) => {
-  // let temp = new task(req.body.?, req.body.?, req.body.?);
-  let validationResult = validator.taskValidation(temp);
+  let validationResult = validator.taskValidation(new task(req.body));
   try {
     if (validationResult.valid) {
       try {
         res.statusCode = 201;
-        res.send(await sqlConnection.save(temp));
+        res.send(await sqlConnection.save(req.body));
       } catch (err) {
         res.statusCode = 400;
         res.sendStatus(400);

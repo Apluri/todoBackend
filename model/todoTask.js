@@ -1,9 +1,9 @@
 class TodoTask {
-  constructor(title, description, deadline) {
-    this.title = title;
-    this.description = description;
-    this.deadline = deadline;
-    this.folder = folder;
+  constructor(task) {
+    this.title = task.title;
+    this.description = task.description;
+    this.deadline = task.deadline;
+    this.folder = task.folder;
   }
 }
 
