@@ -1,12 +1,12 @@
 POST http://localhost:8080/api/
 Content-type :application/json
 
-{"id": 6, "task": "homo", "deadline": "2020-18-10"}
+{"title": "Title:D","description": "testDesc:D", "deadline": "2018-11-09 01:25:30", "folder": "Default"}
 
 ###
 ### ?sorted=DESC&by=lon  
-GET http://localhost:8080/api/tasks/
+GET http://localhost:8080/api/tasks
 
 ### 
 
-DELETE http://localhost:8080/api/1
+DELETE http://localhost:8080/api/7
