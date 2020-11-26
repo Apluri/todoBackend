@@ -1,5 +1,6 @@
 const mysql = require("mysql");
 const config = require("./config.js");
+console.log(config);
 config.connectionLimit = 10;
 let connection = null;
 

@@ -28,6 +28,7 @@ router.get("/tasks/", async (req, res) => {
 
 // add new task
 router.post("/", async (req, res) => {
+  console.log(req.body);
   let validationResult = validator.taskValidation(new task(req.body));
   try {
     if (validationResult.valid) {
