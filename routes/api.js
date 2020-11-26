@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 router.use(express.json());
-// router.use(express.static("../../todoFrontend/?"));
 const validator = require("../model/validator.js");
 const sqlConnection = require("../database/crud.js");
 const task = require("../model/todoTask.js");
