@@ -1,7 +1,7 @@
 POST http://localhost:8080/api/
 Content-type :application/json
 
-{"title": "gei","description": "pilu", "deadline": "2018-11-09 01:25:30", "folder": "Default"}
+{"title": "Title:D","description": "testDesc:D", "deadline": "2018-11-09 01:25:30", "folder": "Default"}
 
 ###
 ### ?sorted=DESC&by=lon  
