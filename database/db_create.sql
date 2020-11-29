@@ -1,7 +1,9 @@
+DROP TABLE IF EXISTS tasks;
 CREATE TABLE tasks (
     id            INT NOT NULL AUTO_INCREMENT,
     title         VARCHAR(100) NOT NULL,
     description   TEXT,
+    isDone        BOOLEAN NOT NULL DEFAULT FALSE,
     deadline      DATETIME,
     folder        VARCHAR(50),
     PRIMARY KEY   (id)

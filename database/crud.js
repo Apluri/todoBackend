@@ -1,6 +1,5 @@
 const mysql = require("mysql");
 const config = require("./config.js");
-console.log(config);
 config.connectionLimit = 10;
 let connection = null;
 
@@ -48,6 +47,16 @@ const connectionFunctions = {
     });
   },
 
+  // not tested yet to be working on anything else than isDone value
+  edit: (task) => {
+    return new Promise((resolve, reject) => {
+      const sqlInsertion = `UPDATE tasks SET ? WHERE id = ${task.id}`;
+      connection.query(sqlInsertion, [task], (err, tasks) => {
+        err ? reject(err) : resolve(`added to id: ${tasks.insertId}`);
+      });
+    });
+  },
+
   deleteAll: () => {
     return new Promise((resolve, reject) => {
       const deleteAll = `DELETE * FROM ${mysql.escapeId("tasks")}`;
@@ -64,8 +73,9 @@ const connectionFunctions = {
   // TODO add sql injection protection for id
   deleteById: (id) => {
     return new Promise((resolve, reject) => {
-      const deleteAll = `DELETE FROM ${mysql.escapeId("tasks")} WHERE id=${id}`;
-      console.log(deleteAll);
+      const deleteAll = `DELETE FROM ${mysql.escapeId(
+        "tasks"
+      )} WHERE id=${mysql.escape(id)}`;
       connection.query(deleteAll, (err, tasks) => {
         err
           ? reject(err)
