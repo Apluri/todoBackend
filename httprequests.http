@@ -1,7 +1,7 @@
-POST http://localhost:8080/api/
+POST http://localhost:8080/api/tasks/67
 Content-type :application/json
 
-{"title": "Title:D","description": "testDesc:D", "deadline": "2018-11-09 01:25:30", "folder": "Default"}
+{"title": "csss:D:D","description": "testDesc:D", "deadline": "2018-11-09 01:25:30", "folder": "Default"}
 
 ###
 ### ?sorted=DESC&by=lon  
@@ -9,4 +9,4 @@ GET http://localhost:8080/api/tasks
 
 ### 
 
-DELETE http://localhost:8080/api/7
+DELETE http://localhost:8080/api/tasks/66

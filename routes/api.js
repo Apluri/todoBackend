@@ -16,42 +16,45 @@ router.get("/tasks/", async (req, res) => {
   }
 });
 
-// add new task or update task
+// add new task
 router.post("/tasks/", async (req, res) => {
   let validationResult = validator.taskValidation(new task(req.body));
-
-  // if id exists edit task, else post new
-  if (req.body.id !== undefined && validationResult.valid) {
-    if (validator.idValidation(req.body.id).valid) {
+  console.log("normal post:D");
+  try {
+    if (validationResult.valid) {
       try {
         res.statusCode = 201;
-        res.send(await sqlConnection.edit(req.body));
-      } catch {
+        res.send(await sqlConnection.save(req.body));
+      } catch (err) {
+        res.statusCode = 400;
         res.sendStatus(400);
       }
     } else {
       res.statusCode = 406;
       res.send(validationResult.errors);
     }
+  } catch (err) {
+    res.statusCode = 400;
+    res.send(err);
   }
-  // post new here
-  else {
-    try {
-      if (validationResult.valid) {
-        try {
-          res.statusCode = 201;
-          res.send(await sqlConnection.save(req.body));
-        } catch (err) {
-          res.statusCode = 400;
-          res.sendStatus(400);
-        }
-      } else {
-        res.statusCode = 406;
-        res.send(validationResult.errors);
+});
+
+// Edit task defined by ID
+router.post("/tasks/:taskid([0-9]+)", async (req, res) => {
+  let validationResult = validator.taskValidation(new task(req.body));
+  const id = Number(req.params.taskid);
+  if (validationResult.valid) {
+    if (validator.idValidation(id).valid) {
+      try {
+        res.statusCode = 201;
+        const result = await sqlConnection.edit(id, req.body);
+        res.send(result);
+      } catch {
+        res.sendStatus(400);
       }
-    } catch (err) {
-      res.statusCode = 400;
-      res.send(err);
+    } else {
+      res.statusCode = 406;
+      res.send(validationResult.errors);
     }
   }
 });
