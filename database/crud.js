@@ -48,11 +48,11 @@ const connectionFunctions = {
   },
 
   // not tested yet to be working on anything else than isDone value
-  edit: (task) => {
+  edit: (id, task) => {
     return new Promise((resolve, reject) => {
-      const sqlInsertion = `UPDATE tasks SET ? WHERE id = ${task.id}`;
+      const sqlInsertion = `UPDATE tasks SET ? WHERE id = ${id}`;
       connection.query(sqlInsertion, [task], (err, tasks) => {
-        err ? reject(err) : resolve(`added to id: ${tasks.insertId}`);
+        err ? reject(err) : resolve(`Edited task with ID: ${id}`);
       });
     });
   },
@@ -70,7 +70,6 @@ const connectionFunctions = {
     });
   },
 
-  // TODO add sql injection protection for id
   deleteById: (id) => {
     return new Promise((resolve, reject) => {
       const deleteAll = `DELETE FROM ${mysql.escapeId(
