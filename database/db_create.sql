@@ -9,6 +9,10 @@ INSERT INTO folders (name)
 */
 
 		
+
+-- NOT IN USE YET NOT IN USE YETNOT IN USE YETNOT IN USE YETNOT IN USE YETNOT IN USE YET
+
+
 -- function to fake DROP FOREIGN KEY IF EXISTS becasue its not supported in this mysql version
 DROP PROCEDURE IF EXISTS PROC_DROP_FOREIGN_KEY;
     DELIMITER $$

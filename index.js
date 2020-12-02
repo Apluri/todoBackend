@@ -5,6 +5,7 @@ const api = require("./routes/api.js");
 const database = require("./database/crud.js");
 
 app.use(cors());
+app.use(express.static("public"));
 app.use("/api", api);
 
 function main() {
