@@ -7,6 +7,7 @@ const task = require("../model/todoTask.js");
 
 // get all tasks
 router.get("/tasks/", async (req, res) => {
+  console.log("hep");
   try {
     res.statusCode = 200;
     res.send(await sqlConnection.findAll());
