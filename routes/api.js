@@ -5,22 +5,11 @@ const validator = require("../model/validator.js");
 const sqlConnection = require("../database/crud.js");
 const task = require("../model/todoTask.js");
 
-// get all tasks
-router.get("/tasks/", async (req, res) => {
+// get all from "table"
+router.get("/:table([a-z]+)/", async (req, res) => {
   try {
     res.statusCode = 200;
-    res.send(await sqlConnection.findAll("tasks"));
-  } catch (err) {
-    req.statusCode = 500;
-    res.end();
-  }
-});
-
-// get all folders
-router.get("/folders/", async (req, res) => {
-  try {
-    res.statusCode = 200;
-    res.send(await sqlConnection.findAll("folders"));
+    res.send(await sqlConnection.findAll(req.params.table));
   } catch (err) {
     req.statusCode = 500;
     res.end();
@@ -34,7 +23,7 @@ router.post("/tasks/", async (req, res) => {
     if (validationResult.valid) {
       try {
         res.statusCode = 201;
-        res.send(await sqlConnection.save(req.body));
+        res.send(await sqlConnection.save("tasks", req.body));
       } catch (err) {
         res.statusCode = 400;
         res.sendStatus(400);
@@ -42,6 +31,22 @@ router.post("/tasks/", async (req, res) => {
     } else {
       res.statusCode = 406;
       res.send(validationResult.errors);
+    }
+  } catch (err) {
+    res.statusCode = 400;
+    res.send(err);
+  }
+});
+
+// temporary post folders
+router.post("/folders/", async (req, res) => {
+  try {
+    try {
+      res.statusCode = 201;
+      res.send(await sqlConnection.save("folders", req.body));
+    } catch (err) {
+      res.statusCode = 400;
+      res.sendStatus(400);
     }
   } catch (err) {
     res.statusCode = 400;
@@ -70,10 +75,15 @@ router.post("/tasks/:taskid([0-9]+)", async (req, res) => {
 });
 
 // delete by id
-router.delete("/tasks/:taskid([0-9]+)", async (req, res) => {
+// :table refers to sql table name passed in url
+router.delete("/:table([a-z]+)/:taskid([0-9]+)", async (req, res) => {
   if (validator.idValidation(Number(req.params.taskid))) {
+    console.log(req.params.table);
     try {
-      await sqlConnection.deleteById(Number(req.params.taskid));
+      await sqlConnection.deleteById(
+        req.params.table,
+        Number(req.params.taskid)
+      );
       res.statusCode = 204;
       res.sendStatus(204);
     } catch (err) {
