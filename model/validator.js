@@ -4,7 +4,13 @@ const validator = new Validator();
 const idSchema = { type: "number", minimum: 1 };
 const taskSchema = {
   type: "object",
-  properties: { title: {}, description: {}, deadline: {} },
+  properties: {
+    title: String,
+    description: String,
+    deadline: {},
+    isDone: Boolean,
+    folder_id: { type: "number", minimum: 1 },
+  },
 };
 
 const validation = {
