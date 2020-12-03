@@ -9,7 +9,7 @@ const taskSchema = {
     description: String,
     deadline: {},
     isDone: Boolean,
-    folder_id: { type: "number", minimum: 1 },
+    folder_id: { type: ["number", "null"], minimum: 1 },
   },
 };
 
