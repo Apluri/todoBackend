@@ -26,6 +26,9 @@ const validation = {
   taskValidation: (task) => {
     return validator.validate(task, taskSchema);
   },
+  folderValidation: (folder) => {
+    return validator.validate(fodler, folderSchema);
+  },
 };
 
 module.exports = validation;
