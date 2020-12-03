@@ -4,6 +4,7 @@ router.use(express.json());
 const validator = require("../model/validator.js");
 const sqlConnection = require("../database/crud.js");
 const task = require("../model/todoTask.js");
+const { folderValidation } = require("../model/validator.js");
 
 // get all from "table"
 router.get("/:table([a-z]+)/", async (req, res) => {
@@ -40,13 +41,19 @@ router.post("/tasks/", async (req, res) => {
 
 // temporary post folders
 router.post("/folders/", async (req, res) => {
+  let validationResult = validator.folderValidation(new folder(req.body));
   try {
-    try {
-      res.statusCode = 201;
-      res.send(await sqlConnection.save("folders", req.body));
-    } catch (err) {
-      res.statusCode = 400;
-      res.sendStatus(400);
+    if (validationResult.valid) {
+      try {
+        res.statusCode = 201;
+        res.send(await sqlConnection.save("folders", req.body));
+      } catch (err) {
+        res.statusCode = 400;
+        res.sendStatus(400);
+      }
+    } else {
+      res.statusCode = 406;
+      res.send(validationResult.errors);
     }
   } catch (err) {
     res.statusCode = 400;
