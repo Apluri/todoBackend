@@ -5,11 +5,11 @@ const idSchema = { type: "number", minimum: 1 };
 const taskSchema = {
   type: "object",
   properties: {
-    title: {},
-    description: {},
+    title: String,
+    description: String,
     deadline: {},
-    isDone: {},
-    Folder: String,
+    isDone: Boolean,
+    folder_id: { type: "number", minimum: 1 },
   },
 };
 

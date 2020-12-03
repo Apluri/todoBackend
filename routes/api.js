@@ -7,10 +7,20 @@ const task = require("../model/todoTask.js");
 
 // get all tasks
 router.get("/tasks/", async (req, res) => {
-  console.log("hep");
   try {
     res.statusCode = 200;
-    res.send(await sqlConnection.findAll());
+    res.send(await sqlConnection.findAll("tasks"));
+  } catch (err) {
+    req.statusCode = 500;
+    res.end();
+  }
+});
+
+// get all folders
+router.get("/folders/", async (req, res) => {
+  try {
+    res.statusCode = 200;
+    res.send(await sqlConnection.findAll("folders"));
   } catch (err) {
     req.statusCode = 500;
     res.end();
@@ -20,7 +30,6 @@ router.get("/tasks/", async (req, res) => {
 // add new task
 router.post("/tasks/", async (req, res) => {
   let validationResult = validator.taskValidation(new task(req.body));
-  console.log("normal post:D");
   try {
     if (validationResult.valid) {
       try {

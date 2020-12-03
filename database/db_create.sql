@@ -1,16 +1,13 @@
 /*
 test values
 INSERT INTO folders (name)
- VALUES	("tokafoldur");
+ VALUES	("testfold3");
         
  INSERT INTO tasks (title, description, deadline, folder_id)
- VALUES	("TestTitle4", "Test Description",  now(),2),
-       ("Tää kusee:D", "Test Description2",  now(), 1);
+ VALUES	("TestTitle4", "Test Description",  now(),3),
+       ("Title:D", "Test Description2",  now(), 1),
+       ("Tää :D", "Test Description2",  now(), 8);
 */
-
-		
-
--- NOT IN USE YET NOT IN USE YETNOT IN USE YETNOT IN USE YETNOT IN USE YETNOT IN USE YET
 
 
 -- function to fake DROP FOREIGN KEY IF EXISTS becasue its not supported in this mysql version
@@ -50,7 +47,7 @@ CREATE TABLE tasks (
 DROP TABLE IF EXISTS folders;
 CREATE TABLE folders (
     id            INT NOT NULL AUTO_INCREMENT,
-    name          VARCHAR(100) NOT NULL,
+    name          VARCHAR(100) NOT NULL UNIQUE,
     PRIMARY KEY   (id)
 );
 

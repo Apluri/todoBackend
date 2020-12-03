@@ -1,6 +1,5 @@
 const mysql = require("mysql");
 const config = require("./config.js");
-config.connectionLimit = 10;
 let connection = null;
 
 const connectionFunctions = {
@@ -20,10 +19,10 @@ const connectionFunctions = {
     });
   },
 
-  findAll: () => {
+  findAll: (table) => {
     return new Promise((resolve, reject) => {
       if (connection) {
-        const selectAll = `SELECT * FROM ${mysql.escapeId("tasks")}`;
+        const selectAll = `SELECT * FROM ${mysql.escapeId(table)}`;
         connection.query(selectAll, (err, tasks) => {
           // const allTasks = JSON.parse(JSON.stringify(tasks));
           err ? reject(err) : resolve(tasks);
