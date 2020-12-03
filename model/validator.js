@@ -15,7 +15,8 @@ const taskSchema = {
 const folderSchema = {
   type: "object",
   properties: {
-    name: { type: String, minLenght: 3 },
+    name: String,
+    minLenght: 3,
   },
 };
 
