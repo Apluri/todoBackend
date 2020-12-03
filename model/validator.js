@@ -12,6 +12,12 @@ const taskSchema = {
     folder_id: { type: ["number", "null"], minimum: 1 },
   },
 };
+const folderSchema = {
+  type: "object",
+  properties: {
+    name: { type: String, minLenght: 3 },
+  },
+};
 
 const validation = {
   idValidation: (id) => {
