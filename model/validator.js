@@ -16,7 +16,6 @@ const folderSchema = {
   type: "object",
   properties: {
     name: String,
-    minLenght: 3,
   },
 };
 
