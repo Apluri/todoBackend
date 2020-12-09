@@ -7,28 +7,24 @@ const task = require("../model/todoTask.js");
 const { folderValidation } = require("../model/validator.js");
 
 // get all from "table"
-router.get("/:table([a-z]+)/", async (req, res) => {
+router.get("/:table([a-z]+)/", (req, res) => {
   let sqlOrderBy = "";
   const extraQueryExists = JSON.stringify(req.query).length > 2;
 
   if (extraQueryExists) {
     if (req.query.sorted && req.query.by) {
+      // validate pls
       sqlOrderBy = `ORDER BY ${req.query.by} ${req.query.sorted}`;
     } else {
-      // typos / errors in url
+      // no match to sorted or by
       res.sendStatus(400);
       res.end();
     }
   }
-
-  try {
-    console.log("lolol:D");
-    res.statusCode = 200;
-    res.send(await sqlConnection.findAll(req.params.table, sqlOrderBy));
-  } catch (err) {
-    req.statusCode = 500;
-    res.end();
-  }
+  sqlConnection
+    .findAll(req.params.table, sqlOrderBy)
+    .then((data) => res.status(200).send(data))
+    .catch((err) => res.status(412).send(err));
 });
 
 // add new task

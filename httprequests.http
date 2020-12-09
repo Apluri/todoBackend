@@ -7,7 +7,7 @@ Content-type :application/json
 
 ###
 ### ?sorted=desc&by=timeCreated  
-GET http://localhost:8080/api/tasks?sorted=desc&by=id
+GET http://localhost:8080/api/tasks?sorted=asc&by=id
 ### 
 
 DELETE http://localhost:8080/api/folders/8
