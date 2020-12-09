@@ -9,7 +9,13 @@ const taskSchema = {
     description: String,
     deadline: {},
     isDone: Boolean,
-    folder_id: { type: "number", minimum: 1 },
+    folder_id: { type: ["number", "null"], minimum: 1 },
+  },
+};
+const folderSchema = {
+  type: "object",
+  properties: {
+    name: String,
   },
 };
 
@@ -19,6 +25,9 @@ const validation = {
   },
   taskValidation: (task) => {
     return validator.validate(task, taskSchema);
+  },
+  folderValidation: (folder) => {
+    return validator.validate(fodler, folderSchema);
   },
 };
 
