@@ -19,10 +19,10 @@ const connectionFunctions = {
     });
   },
 
-  findAll: (table) => {
+  findAll: (table, orderBy) => {
     return new Promise((resolve, reject) => {
       if (connection) {
-        const selectAll = `SELECT * FROM ${mysql.escapeId(table)}`;
+        const selectAll = `SELECT * FROM ${mysql.escapeId(table)} ${orderBy}`;
         connection.query(selectAll, (err, tasks) => {
           // const allTasks = JSON.parse(JSON.stringify(tasks));
           err ? reject(err) : resolve(tasks);

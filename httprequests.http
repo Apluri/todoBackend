@@ -6,9 +6,8 @@ Content-type :application/json
 # {"title": "csss:D:D","description": "testDesc:D", "deadline": "2018-11-09 01:25:30", "folder_id": 1}
 
 ###
-### ?sorted=DESC&by=lon  
-GET http://localhost:8080/api/folders
-
+### ?sorted=desc&by=timeCreated  
+GET http://localhost:8080/api/tasks?sorted=desc&by=id
 ### 
 
 DELETE http://localhost:8080/api/folders/8

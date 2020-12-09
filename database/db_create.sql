@@ -1,12 +1,12 @@
 /*
 test values
 INSERT INTO folders (name)
- VALUES	("testfold3");
+ VALUES	("testfold1");
         
  INSERT INTO tasks (title, description, deadline, folder_id)
- VALUES	("TestTitle4", "Test Description",  now(),3),
-       ("Title:D", "Test Description2",  now(), 1),
-       ("Tää :D", "Test Description2",  now(), 8);
+ VALUES	("matti myöhäne", "Test Description",  now(),1),
+       ("Title:D", "Test Description2",  now(), 2),
+       ("Tää :D", "Test Description3",  now(), 1);
 */
 
 
@@ -38,6 +38,7 @@ CREATE TABLE tasks (
     title         VARCHAR(100) NOT NULL,
     description   TEXT,
     isDone        BOOLEAN NOT NULL DEFAULT FALSE,
+    timeCreated   DATETIME DEFAULT now(),
     deadline      DATE,
     folder_id     INT,
     PRIMARY KEY   (id)

@@ -8,9 +8,23 @@ const { folderValidation } = require("../model/validator.js");
 
 // get all from "table"
 router.get("/:table([a-z]+)/", async (req, res) => {
+  let sqlOrderBy = "";
+  const extraQueryExists = JSON.stringify(req.query).length > 2;
+
+  if (extraQueryExists) {
+    if (req.query.sorted && req.query.by) {
+      sqlOrderBy = `ORDER BY ${req.query.by} ${req.query.sorted}`;
+    } else {
+      // typos / errors in url
+      res.sendStatus(400);
+      res.end();
+    }
+  }
+
   try {
+    console.log("lolol:D");
     res.statusCode = 200;
-    res.send(await sqlConnection.findAll(req.params.table));
+    res.send(await sqlConnection.findAll(req.params.table, sqlOrderBy));
   } catch (err) {
     req.statusCode = 500;
     res.end();
