@@ -22,7 +22,15 @@ const connectionFunctions = {
   findAll: (table, orderBy) => {
     return new Promise((resolve, reject) => {
       if (connection) {
-        const selectAll = `SELECT * FROM ${mysql.escapeId(table)} ${orderBy}`;
+        let selectAll = `SELECT * FROM ${mysql.escapeId(table)}`;
+        // if orderby has data
+        if (orderBy) {
+          selectAll = `SELECT * FROM ${mysql.escapeId(
+            table
+          )} ORDER BY ${mysql.escapeId(orderBy.by)} ${
+            orderBy.order === "desc" ? "desc" : "asc"
+          }`;
+        }
         connection.query(selectAll, (err, tasks) => {
           // const allTasks = JSON.parse(JSON.stringify(tasks));
           err ? reject(err) : resolve(tasks);

@@ -1,13 +1,13 @@
-POST http://localhost:8080/api/folders/
+POST http://localhost:8080/api/tasks/
 Content-type :application/json
 
-{"name": "testPostFoldur"}
+# {"name": "testPostFoldur2"}
 
-# {"title": "csss:D:D","description": "testDesc:D", "deadline": "2018-11-09 01:25:30", "folder_id": 1}
+ {"title": "asd:D:D","description": "testDesc:D", "deadline": "2018-11-09", "folder_id": 1}
 
 ###
 ### ?sorted=desc&by=timeCreated  
-GET http://localhost:8080/api/tasks?sorted=asc&by=id
+GET http://localhost:8080/api/tasks?sorted=desc&by=timeCreated  
 ### 
 
-DELETE http://localhost:8080/api/folders/8
+DELETE http://localhost:8080/api/tasks/2

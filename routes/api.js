@@ -13,8 +13,7 @@ router.get("/:table([a-z]+)/", (req, res) => {
 
   if (extraQueryExists) {
     if (req.query.sorted && req.query.by) {
-      // validate pls
-      sqlOrderBy = `ORDER BY ${req.query.by} ${req.query.sorted}`;
+      sqlOrderBy = { by: req.query.by, order: req.query.sorted };
     } else {
       // no match to sorted or by
       res.sendStatus(400);
