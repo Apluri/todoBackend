@@ -10,20 +10,37 @@ const { folderValidation } = require("../model/validator.js");
 router.get("/:table([a-z]+)/", (req, res) => {
   let sqlOrderBy = "";
   const extraQueryExists = JSON.stringify(req.query).length > 2;
-
+  let done = false;
   if (extraQueryExists) {
     if (req.query.sorted && req.query.by) {
       sqlOrderBy = { by: req.query.by, order: req.query.sorted };
+    } else if (req.query.search) {
+      sqlConnection
+        .search(req.query.search)
+        .then((data) => {
+          // tumber of these matches the table searches in sql
+          let arrdata = [...data[0], ...data[1], ...data[2]];
+          let ids = arrdata.map((o) => o.id);
+          let filtered = arrdata.filter(
+            ({ id }, index) => !ids.includes(id, index + 1)
+          );
+
+          res.status(200).send(filtered);
+        })
+        .catch((err) => res.status(412).send(err));
+      done = true;
     } else {
       // no match to sorted or by
       res.sendStatus(400);
       res.end();
     }
   }
-  sqlConnection
-    .findAll(req.params.table, sqlOrderBy)
-    .then((data) => res.status(200).send(data))
-    .catch((err) => res.status(412).send(err));
+  if (!done) {
+    sqlConnection
+      .findAll(req.params.table, sqlOrderBy)
+      .then((data) => res.status(200).send(data))
+      .catch((err) => res.status(412).send(err));
+  }
 });
 
 // add new task

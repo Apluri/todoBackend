@@ -4,7 +4,7 @@ INSERT INTO folders (name)
  VALUES	("testfold1");
         
  INSERT INTO tasks (title, description, deadline, folder_id)
- VALUES	("matti myöhäne", "Test Description",  now(),1),
+ VALUES	("matti toine", "Test Description",  now(),1),
        ("Title:D", "Test Description2",  now(), 2),
        ("Tää :D", "Test Description3",  now(), 1);
 */
@@ -60,6 +60,24 @@ ADD CONSTRAINT FK_folder_id FOREIGN KEY (folder_id) REFERENCES folders(id)
         ON DELETE SET NULL;
 
 
+
+/* search stuff from title, deadline, description */
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `searchStuff`$$
+
+CREATE PROCEDURE searchStuff(IN str VARCHAR(20))
+BEGIN
+	SELECT *
+	FROM tasks
+	WHERE title LIKE CONCAT('%',str, '%');
+    SELECT *
+	FROM tasks
+	WHERE deadline LIKE CONCAT('%',str, '%');
+    SELECT *
+	FROM tasks
+	WHERE description LIKE CONCAT('%',str, '%');
+END$$
+DELIMITER ;
 /*
 Test queries
 

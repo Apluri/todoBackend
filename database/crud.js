@@ -40,7 +40,20 @@ const connectionFunctions = {
       }
     });
   },
-
+  search: (value) => {
+    return new Promise((resolve, reject) => {
+      if (connection) {
+        let searchSql = `call searchStuff(${mysql.escape(value)})`;
+        console.log(searchSql);
+        connection.query(searchSql, (err, tasks) => {
+          // const allTasks = JSON.parse(JSON.stringify(tasks));
+          err ? reject(err) : resolve(tasks);
+        });
+      } else {
+        reject(new Error("Connection failed"));
+      }
+    });
+  },
   findById: (id) => {
     return new Promise((resolve, reject) => {});
   },
