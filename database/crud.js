@@ -64,14 +64,14 @@ const connectionFunctions = {
     });
   },
 
-  deleteAll: () => {
+  deleteAll: (table) => {
     return new Promise((resolve, reject) => {
-      const deleteAll = `DELETE * FROM ${mysql.escapeId("tasks")}`;
-      connection.query(deleteAll, (err, tasks) => {
+      const deleteAll = `DELETE * FROM ${mysql.escapeId(table)}`;
+      connection.query(deleteAll, (err, items) => {
         err
           ? reject(err)
-          : tasks.affectedRows > 0
-          ? resolve(`${tasks.affectedRows} row(s) affected`)
+          : items.affectedRows > 0
+          ? resolve(`${items.affectedRows} row(s) affected`)
           : resolve("nothing to delete");
       });
     });
