@@ -132,7 +132,7 @@ router.delete("/:table([a-z]+)/:taskid([0-9]+)", async (req, res) => {
 });
 
 // delete all
-router.delete("/:table([a-z]+)/", async (req, res) => {
+router.delete("/:table([a-z]+)", async (req, res) => {
   try {
     await sqlConnection.deleteAll(req.params.table);
     res.statusCode = 204;
