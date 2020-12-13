@@ -79,7 +79,7 @@ const connectionFunctions = {
 
   deleteAll: (table) => {
     return new Promise((resolve, reject) => {
-      const deleteAll = `DELETE * FROM ${mysql.escapeId(table)}`;
+      const deleteAll = `DELETE FROM ${mysql.escapeId(table)}`;
       connection.query(deleteAll, (err, items) => {
         err
           ? reject(err)
