@@ -4,7 +4,7 @@ router.use(express.json());
 const validator = require("../model/validator.js");
 const sqlConnection = require("../database/crud.js");
 const task = require("../model/todoTask.js");
-const { folderValidation } = require("../model/validator.js");
+const folder = require("../model/todoFolder.js");
 
 // get all from "table"
 router.get("/:table([a-z]+)/", (req, res) => {
@@ -18,9 +18,10 @@ router.get("/:table([a-z]+)/", (req, res) => {
       sqlConnection
         .search(req.query.search)
         .then((data) => {
-          // tumber of these matches the table searches in sql
+          // number of these matches the table searches in sql
           let arrdata = [...data[0], ...data[1], ...data[2]];
           let ids = arrdata.map((o) => o.id);
+          // delete duplicates
           let filtered = arrdata.filter(
             ({ id }, index) => !ids.includes(id, index + 1)
           );
@@ -46,46 +47,27 @@ router.get("/:table([a-z]+)/", (req, res) => {
 // add new task
 router.post("/tasks/", async (req, res) => {
   let validationResult = validator.taskValidation(new task(req.body));
-  try {
-    if (validationResult.valid) {
-      try {
-        res.statusCode = 201;
-        res.send(await sqlConnection.save("tasks", req.body));
-      } catch (err) {
-        res.statusCode = 400;
-        res.sendStatus(400);
-      }
-    } else {
-      res.statusCode = 406;
-      res.send(validationResult.errors);
-    }
-  } catch (err) {
-    res.statusCode = 400;
-    res.send(err);
+  if (validationResult.valid) {
+    sqlConnection
+      .save("tasks", req.body)
+      .then((data) => res.status(201).send(data))
+      .catch((err) => res.status(400).send(err));
+  } else {
+    res.status(406).send(validationResult.errors);
   }
 });
 
-// temporary post folders
+// post folders
 router.post("/folders/", async (req, res) => {
-  //let validationResult = validator.folderValidation(new folder(req.body));
-  try {
-    //if (validationResult.valid) {
-    try {
-      res.statusCode = 201;
-      res.send(await sqlConnection.save("folders", req.body));
-    } catch (err) {
-      res.statusCode = 400;
-      res.sendStatus(400);
-    }
-    /*
-    } else {
-      res.statusCode = 406;
-      res.send(validationResult.errors);
-    }
-    */
-  } catch (err) {
+  let validationResult = validator.folderValidation(new folder(req.body));
+  if (validationResult.valid) {
+    await sqlConnection
+      .save("folders", req.body)
+      .then((data) => res.status(201).send(data))
+      .catch((err) => res.status(409).send(err));
+  } else {
     res.statusCode = 400;
-    res.send(err);
+    res.send(validationResult.errors);
   }
 });
 
@@ -93,54 +75,39 @@ router.post("/folders/", async (req, res) => {
 router.post("/tasks/:taskid([0-9]+)", async (req, res) => {
   let validationResult = validator.taskValidation(new task(req.body));
   const id = Number(req.params.taskid);
-  if (validationResult.valid) {
-    if (validator.idValidation(id).valid) {
-      try {
-        res.statusCode = 201;
-        const result = await sqlConnection.edit(id, req.body);
-        res.send(result);
-      } catch {
-        res.sendStatus(400);
-      }
-    } else {
-      res.statusCode = 406;
-      res.send(validationResult.errors);
-    }
+  const idValidationResult = validator.idValidation(id);
+  if (validationResult.valid && idValidationResult.valid) {
+    await sqlConnection
+      .edit(id, req.body)
+      .then((data) => res.status(201).send(data))
+      .catch((err) => res.status(400).send(err));
+  } else {
+    // if task had no errors, error was in id
+    !validationResult.valid
+      ? res.status(406).send(validationResult.errors)
+      : res.status(406).send(idValidationResult.errors);
   }
 });
 
 // delete by id
 // :table refers to sql table name passed in url
 router.delete("/:table([a-z]+)/:taskid([0-9]+)", async (req, res) => {
-  if (validator.idValidation(Number(req.params.taskid))) {
-    console.log(req.params.table);
-    try {
-      await sqlConnection.deleteById(
-        req.params.table,
-        Number(req.params.taskid)
-      );
-      res.statusCode = 204;
-      res.sendStatus(204);
-    } catch (err) {
-      res.statusCode = 400;
-      res.send(err);
-    }
+  if (validator.idValidation(Number(req.params.taskid)).valid) {
+    await sqlConnection
+      .deleteById(req.params.table, Number(req.params.taskid))
+      .then((data) => res.status(204).send(data))
+      .catch((err) => res.status(404).send(err));
   } else {
-    res.statusCode = 406;
-    res.sendStatus(406);
+    res.sendStatus(400);
   }
 });
 
 // delete all
 router.delete("/:table([a-z]+)", async (req, res) => {
-  try {
-    await sqlConnection.deleteAll(req.params.table);
-    res.statusCode = 204;
-    res.sendStatus(204);
-  } catch (err) {
-    res.statusCode = 400;
-    res.send(err);
-  }
+  await sqlConnection
+    .deleteAll(req.params.table)
+    .then((data) => res.status(204).send(data))
+    .catch((err) => res.status(400).send(err));
 });
 
 module.exports = router;

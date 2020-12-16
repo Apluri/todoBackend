@@ -100,7 +100,7 @@ const connectionFunctions = {
           ? reject(err)
           : tasks.affectedRows > 0
           ? resolve(`${tasks.affectedRows} row(s) affected`)
-          : resolve("nothing to delete");
+          : reject("nothing to delete");
       });
     });
   },

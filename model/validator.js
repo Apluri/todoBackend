@@ -5,17 +5,17 @@ const idSchema = { type: "number", minimum: 1 };
 const taskSchema = {
   type: "object",
   properties: {
-    title: String,
-    description: String,
-    deadline: {},
-    isDone: Boolean,
+    title: { type: "string" },
+    description: { type: ["string", "null"] },
+    deadline: { type: ["string", "null"] },
+    isDone: { type: ["boolean", "number"], minimum: 0, maximum: 1 },
     folder_id: { type: ["number", "null"], minimum: 1 },
   },
 };
 const folderSchema = {
   type: "object",
   properties: {
-    name: String,
+    name: { type: "string" },
   },
 };
 
@@ -27,7 +27,7 @@ const validation = {
     return validator.validate(task, taskSchema);
   },
   folderValidation: (folder) => {
-    return validator.validate(fodler, folderSchema);
+    return validator.validate(folder, folderSchema);
   },
 };
 
