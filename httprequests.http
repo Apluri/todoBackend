@@ -1,13 +1,43 @@
-POST http://localhost:8080/api/tasks/169
+### Add task
+POST http://localhost:8080/api/tasks
 Content-type :application/json
 
- # {"name": "adsf"}
+{"title": "test task","description": "testDesc", "deadline": "2018-11-09"}
 
- {"title": "1","description": "testDesc:D", "isDone": true, "deadline": "2018-11-09", "folder_id": 54}
+### edit existing task (id after url must exist)
+POST http://localhost:8080/api/tasks/275
+Content-type :application/json
+
+{"title": "edited valueee","description": "edited desc", "deadline": "2018-11-09"}
+
+###Add folder (name must be unique)
+POST http://localhost:8080/api/folders
+Content-type :application/json
+
+ {"name": "curl tesdt"}
+
+### List all folders
+GET http://localhost:8080/api/folders
+ 
+
+### list all tasks
+GET http://localhost:8080/api/tasks
+
+### Search somethinging from tasks (check title, description and deadline for matches)
+GET http://localhost:8080/api/tasks?search=edite
+
+
+### delete all folders
+DELETE http://localhost:8080/api/folders
+
+
+### delete all tasks
+DELETE http://localhost:8080/api/tasks
+
+### delete folder by ID
+DELETE http://localhost:8080/api/folders/2
+
+### delete task by ID
+DELETE http://localhost:8080/api/tasks/275
 
 ###
-### ?sorted=desc&by=timeCreated  
-GET http://localhost:8080/api/tasks
-### 
-
-DELETE http://localhost:8080/api/folders

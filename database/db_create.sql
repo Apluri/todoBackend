@@ -1,14 +1,5 @@
-/*
-test values
-INSERT INTO folders (name)
- VALUES	("testfold1");
-        
- INSERT INTO tasks (title, description, deadline, folder_id)
- VALUES	("matti toine", "Test Description",  now(),1),
-       ("Title:D", "Test Description2",  now(), 2),
-       ("Tää :D", "Test Description3",  now(), 1);
-*/
 
+-- Database creation scripts, Database creation can be re-copypasted to overwrite database so be careful
 
 -- function to fake DROP FOREIGN KEY IF EXISTS becasue its not supported in this mysql version
 DROP PROCEDURE IF EXISTS PROC_DROP_FOREIGN_KEY;
@@ -78,12 +69,3 @@ BEGIN
 	WHERE description LIKE CONCAT('%',str, '%');
 END$$
 DELIMITER ;
-/*
-Test queries
-
-SELECT tasks.id, tasks.title, tasks.description, tasks.deadline, tasks.folder_id, folders.name FROM tasks
-INNER JOIN folders
-ON tasks.folder_id = folders.id;
-*/
-
-
