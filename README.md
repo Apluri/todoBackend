@@ -14,13 +14,13 @@
 
 ## Install instructions
 
-clone backend repo to folder you or your choise
+clone backend repository for yourself
 
 ```
 git clone https://github.com/Apluri/todoBackend.git
 ```
 
-navigate inside backend folder
+navigate to the cloned repository
 
 ```
 CD todoBackend
@@ -52,4 +52,4 @@ node index
 - > STEP 3: Replace dummy values with your SQL login values
   > \*/
 
-### After all these you should be able use your local todoBackend
+### After this you should be able use your local todoBackend
