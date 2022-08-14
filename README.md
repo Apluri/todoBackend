@@ -1,5 +1,7 @@
 # 4A00EZ61-3001 Backend-kehitys - Todo-applikaatio
 
+[ToDo app Frontend repository](https://github.com/Apluri/todoFrontend)
+
 ## Ryhmä 04 - Toni Salminen, Aleksi Hietala
 
 ## Backend for todo-application
